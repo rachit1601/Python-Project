@@ -4,15 +4,18 @@ from ttkthemes import ThemedTk
 import tkinter.messagebox as tmsg
 import json
 import urllib.request
-import time
 import random
-import threading
+
+
 url = 'https://opentdb.com/api.php?amount=15&category=18&type=multiple'
 data = urllib.request.urlopen(url).read().decode()
 obj = json.loads(data)
+
+#some used variables
 score=0
 count = 1
 timer_status=0
+
 def raise_frame(frame):
     frame.tkraise()
     
@@ -26,7 +29,6 @@ def timer_start():
             score_calc(1)
         break
     
-
 def score_calc(o):
     global score
     global count
@@ -56,9 +58,9 @@ def score_calc(o):
     c=-1
     timerlabel['value']=100
     timer_status=0
-    threading.Thread(target=timer_start).start()
-
-home = ThemedTk(theme='equilux')
+    timer_start()
+themetxt= open('theme.txt','r')
+home = ThemedTk(theme=f'{themetxt.read()}')
 #positionRight = int(home.winfo_screenwidth()/2 - 733/2)
 #positionDown = int(home.winfo_screenheight()/2 - 434/2)
 #home.geometry("733x434+{}+{}".format(positionRight, positionDown))
@@ -69,6 +71,8 @@ timerframe.grid(row=1, column=0, sticky='news')
 timerlabel=ttk.Progressbar(timerframe, orient=HORIZONTAL,length=500 ,mode = 'determinate')
 timerlabel.pack()
 timerlabel['value'] = 100
+
+
 #frames
 intro= ttk.Frame(home)
 q1=ttk.Frame(home)
@@ -159,7 +163,5 @@ for j in (q1,q2,q3,q4,q5,q6,q7,q8,q9,q10,q11,q12,q13,q14,q15):
     ttk.Button(j, text="Submit" ,command=lambda:score_calc(0)).pack(side='bottom', pady=10)
     
         
-#print(questions_list)
 raise_frame(intro)
-#home.config(bg='grey')
 home.mainloop()
