@@ -16,10 +16,10 @@ obj0 = json.loads(datat[0])
 obj1 = json.loads(datat[1])
 obj2 = json.loads(datat[2])
 
-url = 'https://opentdb.com/api.php?amount=15&category=18&type=multiple'
-data = urllib.request.urlopen(url).read().decode()
-obj = json.loads(data)
-
+#url = 'https://opentdb.com/api.php?amount=15&category=18&type=multiple'
+#data = urllib.request.urlopen(url).read().decode()
+#obj = json.loads(data)
+obj_list=(obj0,obj1,obj2)
 #some used variables
 score=0
 count = 1
@@ -54,14 +54,14 @@ def timer_start():
             score_calc(1)
         break
 
-def start():
+def start(category):
     global timer_status
     global timerlabel
     raise_frame(q1)
     timerlabel.pack()
     timer_status=0
     timer_start()
-    q_a_main(obj0)
+    q_a_main(category)
 
 def score_calc(o , category):
     global score
@@ -107,12 +107,26 @@ def score_calc(o , category):
             tmsg.showinfo("Response", f'Time UP \n The correct answer was \n \"{coranswer}\""')
         #final score
         ttk.Label(final,text=f"You scored {score} out of 15", font='lucida 20 bold'  , wraplength=400).pack(pady=20)
-        timerlabel.destroy()
+        timerlabel.forget()
         raise_frame(final)
         stats_update()
 
 def settings():
     raise_frame(sett_window)
+
+def restart():
+    global score
+    global count
+    global timer_status
+    global question
+    score=0
+    count = 1
+    timer_status=0
+    raise_frame(intro)
+
+        
+
+
 
 themetxt= open('theme.txt','r')
 home = ThemedTk(theme=f'{themetxt.read()}')
@@ -141,6 +155,7 @@ final=ttk.Frame(home)
 #frames declaration end -->
 
 
+
 #positionRight = int(home.winfo_screenwidth()/2 - 733/2)
 #positionDown = int(home.winfo_screenheight()/2 - 434/2)
 #home.geometry("733x434+{}+{}".format(positionRight, positionDown))
@@ -157,7 +172,17 @@ timerlabel=ttk.Progressbar(timerframe, orient=HORIZONTAL,length=500 ,mode = 'det
 timerlabel['value'] = 100
 #timer label -->
 
+#<-- Category frame
 
+ttk.Button(cate, text=f'{url_list_names[0]}' , command =lambda:start(obj0)).pack(pady=20)
+ttk.Button(cate, text=f'{url_list_names[1]}' , command =lambda:start(obj1)).pack(pady=20)
+ttk.Button(cate, text=f'{url_list_names[2]}' , command =lambda:start(obj2)).pack(pady=20)
+#Category Frame -->
+
+#<--Final window
+ttk.Button(final,text='Back to Mainmenu', command=restart).pack(side=BOTTOM)
+ttk.Button(final,text='Exit', command=lambda:home.destroy()).pack(side=BOTTOM)
+#Final Window-->
 
 #themes names button
 def themes_buttons():
@@ -176,14 +201,14 @@ themes_buttons()
 
 #frame assignment
 for frame in (intro,cate,sett_window, q1, q2, q3,q4,q5,q6,q7,q8,q9,q10,q11,q12,q13,q14,q15,final):
-    frame.grid(row=0, column=0, sticky='news', ipadx=100)
+    frame.grid(row=0, column=0, sticky='news')
 
 #home page
 photo=PhotoImage(file="quiz_trans.png")
 pic=ttk.Label(intro, image=photo, borderwidth=0).pack()
 
 start_img=PhotoImage(file='start.png')
-ttk.Button(intro, image=start_img ,command=start).pack(side='bottom')
+ttk.Button(intro, image=start_img ,command=lambda:raise_frame(cate)).pack(side='bottom')
 
 settings_img=PhotoImage(file='settings.png')
 ttk.Button(intro, image=settings_img,command=settings).pack(side='bottom')
@@ -213,11 +238,6 @@ def q_a_main(category):
     for i in (q1,q2,q3,q4,q5,q6,q7,q8,q9,q10,q11,q12,q13,q14,q15):
         question=ttk.Label(i, text=questions_list[j], font='lucida 20 bold'  , wraplength=400).pack(pady=20)
         j=j+1
-
-
-
-    
-
 
     #variables of answers
     ans1 = StringVar()
@@ -253,12 +273,6 @@ def q_a_main(category):
     #Submit Buttom
     for j in (q1,q2,q3,q4,q5,q6,q7,q8,q9,q10,q11,q12,q13,q14,q15):
         ttk.Button(j, text="Submit" ,command=lambda:score_calc(0 , category)).pack(side='bottom', pady=10)
-
-            
-
-
-    
-    
-        
+          
 raise_frame(intro)
 home.mainloop()
