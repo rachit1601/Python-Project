@@ -120,6 +120,17 @@ for i in range (15):
     qnew=qtemp.replace('&#039;', '\'').replace('&quot;', '\"')
     questions_list.append('Q'+str(i+1)+' '+qnew)
 
+#options list 
+new_list=[]
+for i in range(15):
+    opt_list=[]
+    opt_list.append(obj["results"][i]['correct_answer'])
+    opt_list.extend(obj["results"][i]['incorrect_answers'])
+    random.shuffle(opt_list)
+    new_list.append(opt_list)
+
+
+
 themetxt= open('theme.txt','r')
 home = ThemedTk(theme=f'{themetxt.read()}')
 #positionRight = int(home.winfo_screenwidth()/2 - 733/2)
@@ -191,15 +202,6 @@ for i in (q1,q2,q3,q4,q5,q6,q7,q8,q9,q10,q11,q12,q13,q14,q15):
 
 
  
-#options list 
-new_list=[]
-for i in range(15):
-    opt_list=[]
-    opt_list.append(obj["results"][i]['correct_answer'])
-    opt_list.extend(obj["results"][i]['incorrect_answers'])
-    random.shuffle(opt_list)
-    new_list.append(opt_list)
-response = StringVar()
 
 
 #variables of answers
