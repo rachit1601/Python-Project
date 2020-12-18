@@ -1,30 +1,13 @@
-from tkinter import *
+import json
+import urllib.request
+url_list=['https://opentdb.com/api.php?amount=15&type=multiple','https://opentdb.com/api.php?amount=15&category=18&type=multiple','https://opentdb.com/api.php?amount=15&category=9&type=multiple']
+url_list_names=['All category','Computers','GK']
 
-t=0
+data=[]
+for i in range (3):
+    data.append(urllib.request.urlopen(url_list[i]).read().decode())
 
-def set_timer():
-    global t 
-    if t > 0 :
-        L1.config(text=t)
-        t=t-1
-        L1.after(1000,countdown)
-    elif t==0:
-        print("end")
-        L1.config(text="Times up!")
-        
-root = Tk()
-root.geometry("200x150")
-L1 = Label(root , font="ariel")
-L1.grid(row=1,column=2)
-
-times=StringVar()
-entry1=Entry(root,textvariable=times)
-entry1.grid(row=3,column=2)
-
-b1=Button(root,text="SET" , width=20 , command=set_timer)
-b1.grid(row=4,column=2,padx=20)
-
-b2=Button(root,text="START" , width=20 , command=countdown)
-b2.grid(row=6,column=2,padx=20)
-
-root.mainloop()
+#print (data)
+obj0 = json.loads(data[0])
+print (obj0)
+print (type(obj0))
