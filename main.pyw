@@ -5,16 +5,35 @@ import tkinter.messagebox as tmsg
 import json
 import urllib.request
 import random
+import threading
 
-url_list=['https://opentdb.com/api.php?amount=15&type=multiple','https://opentdb.com/api.php?amount=15&category=18&type=multiple','https://opentdb.com/api.php?amount=15&category=9&type=multiple']
-url_list_names=['All category','Computers','GK']
+
+print ('Loading....')
+themetxt= open('theme.txt','r')
+home = ThemedTk(theme=f'{themetxt.read()}')
+home.title('Quiz')
+def main():
+    home.mainloop()
+threading.Thread(target=main)
+
+while not bool(home.winfo_exists()):
+    loading_screen=Tk()
+    Label(text='Loading', font = 'lucida 20 bold').pack()
+    loading_screen.mainloop()
+
+
+url_list=['https://opentdb.com/api.php?amount=15&type=multiple','https://opentdb.com/api.php?amount=15&category=18&type=multiple','https://opentdb.com/api.php?amount=15&category=9&type=multiple','https://opentdb.com/api.php?amount=15&category=10&type=multiple','https://opentdb.com/api.php?amount=15&category=12&type=multiple','https://opentdb.com/api.php?amount=15&category=21&type=multiple']
+url_list_names=['All category','Computers','GK','Books','Music','Sports']
 datat=[]
-for i in range (3):
+for i in range (6):
     datat.append(urllib.request.urlopen(url_list[i]).read().decode())
 
 obj0 = json.loads(datat[0])
 obj1 = json.loads(datat[1])
 obj2 = json.loads(datat[2])
+obj3 = json.loads(datat[3])
+obj4 = json.loads(datat[4])
+obj5 = json.loads(datat[5])
 
 #url = 'https://opentdb.com/api.php?amount=15&category=18&type=multiple'
 #data = urllib.request.urlopen(url).read().decode()
@@ -75,10 +94,10 @@ def score_calc(o , category):
         if o == 0:        
             if answerlist[count-1].get() == category["results"][count-1]['correct_answer']:
                 score = score+1
-                print(score)
+                #print(score)
                 tmsg.showinfo("Response", " Correct")
             else:
-                print("score not increased")
+                #print("score not increased")
                 tmsg.showinfo("Response", f'Wrong \n The correct answer was \n \"{coranswer}\""')
             
         elif o==1:
@@ -97,10 +116,10 @@ def score_calc(o , category):
         if o == 0:        
             if answerlist[count-1].get() == category["results"][count-1]['correct_answer']:
                 score = score+1
-                print(score)
+                #print(score)
                 tmsg.showinfo("Response", " Correct")
             else:
-                print("score not increased")
+                #print("score not increased")
                 tmsg.showinfo("Response", f'Wrong \n The correct answer was \n \"{coranswer}\""')
             
         elif o==1:
@@ -128,9 +147,7 @@ def restart():
 
 
 
-themetxt= open('theme.txt','r')
-home = ThemedTk(theme=f'{themetxt.read()}')
-home.title('Quiz')
+
 
 #frames declaration
 intro= ttk.Frame(home)
@@ -155,12 +172,11 @@ final=ttk.Frame(home)
 #frames declaration end -->
 
 
-
 #positionRight = int(home.winfo_screenwidth()/2 - 733/2)
 #positionDown = int(home.winfo_screenheight()/2 - 434/2)
 #home.geometry("733x434+{}+{}".format(positionRight, positionDown))
 home.iconbitmap("logo.ico")
-#home.resizable(False, False)
+home.resizable(False, False)
 
 #<--timer frame
 timerframe=ttk.Frame(home)
@@ -173,11 +189,15 @@ timerlabel['value'] = 100
 #timer label -->
 
 #<-- Category frame
-
+ttk.Label(cate, text='Please Select Your Trivia Category', font= 'lucida 20 bold').pack(pady=5)
 ttk.Button(cate, text=f'{url_list_names[0]}' , command =lambda:start(obj0)).pack(pady=20)
 ttk.Button(cate, text=f'{url_list_names[1]}' , command =lambda:start(obj1)).pack(pady=20)
 ttk.Button(cate, text=f'{url_list_names[2]}' , command =lambda:start(obj2)).pack(pady=20)
-#Category Frame -->
+ttk.Button(cate, text=f'{url_list_names[3]}' , command =lambda:start(obj3)).pack(pady=20)
+ttk.Button(cate, text=f'{url_list_names[4]}' , command =lambda:start(obj4)).pack(pady=20)
+ttk.Button(cate, text=f'{url_list_names[5]}' , command =lambda:start(obj5)).pack(pady=20)
+ttk.Label(cate,text='Questions provided by Open Trivia Database', font='lucida 8').pack()
+#Category Frame --> 
 
 #<--Final window
 ttk.Button(final,text='Back to Mainmenu', command=restart).pack(side=BOTTOM)
@@ -200,12 +220,13 @@ def themes_buttons():
 themes_buttons()
 
 #frame assignment
-for frame in (intro,cate,sett_window, q1, q2, q3,q4,q5,q6,q7,q8,q9,q10,q11,q12,q13,q14,q15,final):
+intro.grid(row=0, column=0, sticky='news' , ipadx=50)
+for frame in (cate,sett_window, q1, q2, q3,q4,q5,q6,q7,q8,q9,q10,q11,q12,q13,q14,q15,final):
     frame.grid(row=0, column=0, sticky='news')
 
 #home page
 photo=PhotoImage(file="quiz_trans.png")
-pic=ttk.Label(intro, image=photo, borderwidth=0).pack()
+pic=ttk.Label(intro, image=photo, borderwidth=0).pack(padx=35)
 
 start_img=PhotoImage(file='start.png')
 ttk.Button(intro, image=start_img ,command=lambda:raise_frame(cate)).pack(side='bottom')
@@ -273,6 +294,8 @@ def q_a_main(category):
     #Submit Buttom
     for j in (q1,q2,q3,q4,q5,q6,q7,q8,q9,q10,q11,q12,q13,q14,q15):
         ttk.Button(j, text="Submit" ,command=lambda:score_calc(0 , category)).pack(side='bottom', pady=10)
-          
+
+    
 raise_frame(intro)
-home.mainloop()
+
+
