@@ -5,6 +5,9 @@ import tkinter.messagebox as tmsg
 import json
 import urllib.request
 import random
+import pygame
+
+pygame.mixer.init()
 
 print ('Loading....')
 themetxt= open('theme.txt','r')
@@ -171,6 +174,18 @@ def name_set():
     json.dump(data,file)
     raise_frame(cate)
 
+pygame.mixer.music.load("rtwi.mp3")
+pygame.mixer.music.play()
+musicio=IntVar(value=1)
+def music_toggle():
+    global musicio
+    if pygame.mixer.music.get_busy():
+        pygame.mixer.music.pause()
+
+    else:
+        pygame.mixer.music.unpause()
+
+
 #frames declaration
 intro= ttk.Frame(home)
 cate=ttk.Frame(home)
@@ -224,7 +239,7 @@ ttk.Label(cate,text='Questions provided by Open Trivia Database', font='lucida 8
 #Category Frame --> 
 
 #<--Final window
-ttk.Button(final,text='Back to Mainmenu', command=restart).pack(side=BOTTOM)
+#ttk.Button(final,text='Back to Mainmenu', command=restart).pack(side=BOTTOM)
 ttk.Button(final,text='Exit', command=lambda:home.destroy()).pack(side=BOTTOM)
 #Final Window-->
 def stats_window():
@@ -259,6 +274,8 @@ ttk.Button(enter_name,text='Continue',command=name_set).pack(pady=10)
 #themes names button
 
 def themes_buttons():
+    global musicio
+    ttk.Checkbutton(sett_window, text="Music", command=music_toggle,variable=musicio).pack()
     ttk.Label(sett_window,text='Select your theme').pack(pady=10)
     ttk.Button(sett_window,text='Equilux',command=lambda:themeset('equilux')).pack(pady=10)
     ttk.Button(sett_window,text='Yaru',command=lambda:themeset('yaru')).pack(pady=10)
