@@ -6,6 +6,7 @@ import json
 import urllib.request
 import random
 import pygame
+import html
 
 pygame.mixer.init()
 
@@ -36,7 +37,7 @@ obj_list=(obj0,obj1,obj2)
 score=0
 count = 1
 timer_status=0
-
+selected=""
 
 
 def stats_update(sclt):
@@ -65,13 +66,14 @@ def timer_start():
     '''
     This funtion starts/stops the timer
     '''
+    global selected
     global timer_status
     while timer_status == 0:
         if timerlabel['value'] > 0 :
             timerlabel.after(100,timer_start)
             timerlabel['value'] -= 100/150
         else :
-            score_calc(1)
+            score_calc(1 ,selected )
         break
 
 def start(category):
@@ -80,6 +82,8 @@ def start(category):
     '''
     global timer_status
     global timerlabel
+    global selected
+    selected = category
     raise_frame(q1)
     timerlabel.pack()
     timer_status=0
@@ -96,7 +100,7 @@ def score_calc(o , category):
     global timerlabel
     timerlabel.pack()
     timer_status=1
-    coranswer=category["results"][count-1]['correct_answer'].replace('&#039;', '\'').replace('&quot;', '\"').replace('&lt;','<').replace('&gt;','>')
+    coranswer=html.unescape(category["results"][count-1]['correct_answer'])
     if count<15:
         if o == 0:        
             if answerlist[count-1].get() == category["results"][count-1]['correct_answer']:
@@ -223,7 +227,7 @@ timerframe.grid(row=1, column=0, sticky='news')
 #timer frame End-->
 
 #<--Timer label
-timerlabel=ttk.Progressbar(timerframe, orient=HORIZONTAL,length=500 ,mode = 'determinate')
+timerlabel=ttk.Progressbar(timerframe, orient=HORIZONTAL,length=700 ,mode = 'determinate')
 timerlabel['value'] = 100
 #timer label -->
 
@@ -290,23 +294,26 @@ def themes_buttons():
 themes_buttons()
 
 #frame assignment
-intro.grid(row=0, column=0, sticky='news' , ipadx=50)
+intro.grid(row=0, column=0, sticky='news')
 for frame in (cate,sett_window,stats, q1, q2, q3,q4,q5,q6,q7,q8,q9,q10,q11,q12,q13,q14,q15,final,enter_name):
     frame.grid(row=0, column=0, sticky='news')
 
 #home page
 #ttk.Button(intro,text='Exit',command=lambda:home.destroy()).pack()
 #home.overrideredirect(True)
+temporary_frame=ttk.Frame(intro)
+temporary_frame.grid(row= 0 , column = 0 ,sticky='nw')
+settings_img=PhotoImage(file='settings.png')
+ttk.Button(temporary_frame, image=settings_img,command=lambda:raise_frame(sett_window)).pack(padx=(10,0) ,side='left')
 photo=PhotoImage(file="quiz_trans.png")
-pic=ttk.Label(intro, image=photo, borderwidth=0).pack(padx=35)
+pic=ttk.Label(intro, image=photo, borderwidth=0).grid(padx=(45 , 0), pady = 5, row= 1 , column = 0)
 
 start_img=PhotoImage(file='start.png')
-ttk.Button(intro, image=start_img ,command=name_check).pack(side='bottom')
+ttk.Button(intro, image=start_img ,command=name_check).grid(row= 2 , column = 0 , pady=(40,0))
 
-settings_img=PhotoImage(file='settings.png')
-ttk.Button(intro, image=settings_img,command=lambda:raise_frame(sett_window)).pack(side='bottom')
 
-ttk.Button(intro,text="Your Stats",command=lambda:raise_frame(stats)).pack()
+
+ttk.Button(temporary_frame,text="Your Stats",command=lambda:raise_frame(stats)).pack(padx=(500, 10),pady=5, side='right')
 
 answerlist=[]
 def q_a_main(category):
@@ -315,7 +322,7 @@ def q_a_main(category):
     questions_list=[]
     for i in range (15):
         qtemp=category["results"][i]['question']
-        qnew=qtemp.replace('&#039;', '\'').replace('&quot;', '\"')
+        qnew=html.unescape(qtemp)
         questions_list.append('Q'+str(i+1)+' '+qnew)
 
     #options list 
@@ -357,10 +364,10 @@ def q_a_main(category):
     #option radio buttons
     noq=0
     for q in (q1,q2,q3,q4,q5,q6,q7,q8,q9,q10,q11,q12,q13,q14,q15):
-        options= ttk.Radiobutton(q, text= new_list[noq][0].replace('&#039;', '\'').replace('&quot;', '\"').replace('&lt;','<').replace('&gt;','>'),variable=answerlist[noq],value=new_list[noq][0]).pack(pady=10)
-        options= ttk.Radiobutton(q, text= new_list[noq][1].replace('&#039;', '\'').replace('&quot;', '\"').replace('&lt;','<').replace('&gt;','>'),variable=answerlist[noq],value=new_list[noq][1]).pack(pady=10)
-        options= ttk.Radiobutton(q, text= new_list[noq][2].replace('&#039;', '\'').replace('&quot;', '\"').replace('&lt;','<').replace('&gt;','>'),variable=answerlist[noq],value=new_list[noq][2]).pack(pady=10)
-        options= ttk.Radiobutton(q, text= new_list[noq][3].replace('&#039;', '\'').replace('&quot;', '\"').replace('&lt;','<').replace('&gt;','>'),variable=answerlist[noq],value=new_list[noq][3]).pack(pady=10)
+        options= ttk.Radiobutton(q, text= html.unescape(new_list[noq][0]),variable=answerlist[noq],value=new_list[noq][0]).pack(pady=10)
+        options= ttk.Radiobutton(q, text= html.unescape(new_list[noq][1]),variable=answerlist[noq],value=new_list[noq][1]).pack(pady=10)
+        options= ttk.Radiobutton(q, text= html.unescape(new_list[noq][2]),variable=answerlist[noq],value=new_list[noq][2]).pack(pady=10)
+        options= ttk.Radiobutton(q, text= html.unescape(new_list[noq][3]),variable=answerlist[noq],value=new_list[noq][3]).pack(pady=10)
         noq=noq+1
     
     
