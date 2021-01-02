@@ -7,6 +7,7 @@ import urllib.request
 import random
 import pygame
 import html
+import math
 
 pygame.mixer.init()
 
@@ -181,6 +182,7 @@ def name_set():
 pygame.mixer.music.load("rtwi.mp3")
 pygame.mixer.music.play()
 musicio=IntVar(value=1)
+
 def music_toggle():
     global musicio
     if pygame.mixer.music.get_busy():
@@ -195,6 +197,7 @@ intro= ttk.Frame(home)
 cate=ttk.Frame(home)
 sett_window=ttk.Frame(home)
 stats=ttk.Frame(home)
+theme_window=ttk.Frame(home)
 q1=ttk.Frame(home)
 q2=ttk.Frame(home)
 q3=ttk.Frame(home)
@@ -275,27 +278,38 @@ name_entry.pack(pady=20)
 ttk.Button(enter_name,text='Continue',command=name_set).pack(pady=10)
 #enter your name frame --> 
 
-#themes names button
+
+def volume_set(value):
+    pygame.mixer.music.set_volume((int(float(value)))/ 100)
+
+#sett_window
+ttk.Label(sett_window, text="Settings" , font="helvitica 20 bold").pack()
+ttk.Checkbutton(sett_window, text="Music", command=music_toggle,variable=musicio).pack(pady=5)
+volume = ttk.Scale(sett_window, from_=0, to=100, orient=HORIZONTAL, command=volume_set)
+volume.set(100)
+volume.pack(pady=5)
+ttk.Button(sett_window,text='Change Theme', command=lambda:raise_frame(theme_window)).pack(pady=5)
+#sett_window
+
 
 def themes_buttons():
-    global musicio
-    ttk.Checkbutton(sett_window, text="Music", command=music_toggle,variable=musicio).pack()
-    ttk.Label(sett_window,text='Select your theme').pack(pady=10)
-    ttk.Button(sett_window,text='Equilux',command=lambda:themeset('equilux')).pack(pady=10)
-    ttk.Button(sett_window,text='Yaru',command=lambda:themeset('yaru')).pack(pady=10)
-    ttk.Button(sett_window,text='Radiance',command=lambda:themeset('radiance')).pack(pady=10)
-    ttk.Button(sett_window,text='Black',command=lambda:themeset('black')).pack(pady=10)
-    ttk.Button(sett_window,text='Default',command=lambda:themeset('default')).pack(pady=10)
-    ttk.Button(sett_window,text='Breeze',command=lambda:themeset('breeze')).pack(pady=10)
-    ttk.Button(sett_window,text='ITFT1',command=lambda:themeset('itft1')).pack(pady=10)
-    ttk.Button(sett_window,text='Return to Mainmenu',command=lambda:raise_frame(intro)).pack(pady=10)
+    
+    ttk.Label(theme_window,text='Select your theme').pack(pady=10)
+    ttk.Button(theme_window,text='Equilux',command=lambda:themeset('equilux')).pack(pady=10)
+    ttk.Button(theme_window,text='Yaru',command=lambda:themeset('yaru')).pack(pady=10)
+    ttk.Button(theme_window,text='Radiance',command=lambda:themeset('radiance')).pack(pady=10)
+    ttk.Button(theme_window,text='Black',command=lambda:themeset('black')).pack(pady=10)
+    ttk.Button(theme_window,text='Default',command=lambda:themeset('default')).pack(pady=10)
+    ttk.Button(theme_window,text='Breeze',command=lambda:themeset('breeze')).pack(pady=10)
+    ttk.Button(theme_window,text='ITFT1',command=lambda:themeset('itft1')).pack(pady=10)
+    ttk.Button(theme_window,text='Return to Mainmenu',command=lambda:raise_frame(intro)).pack(pady=10)
 
-#themes names button end -->
+
 themes_buttons()
 
 #frame assignment
-intro.grid(row=0, column=0, sticky='news')
-for frame in (cate,sett_window,stats, q1, q2, q3,q4,q5,q6,q7,q8,q9,q10,q11,q12,q13,q14,q15,final,enter_name):
+#intro.grid(row=0, column=0, sticky='news')
+for frame in (intro,cate,sett_window,stats,theme_window, q1, q2, q3,q4,q5,q6,q7,q8,q9,q10,q11,q12,q13,q14,q15,final,enter_name):
     frame.grid(row=0, column=0, sticky='news')
 
 #home page
