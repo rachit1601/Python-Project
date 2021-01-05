@@ -253,8 +253,9 @@ while status == 0 :
 
     #<--Final window
     #ttk.Button(final,text='Back to Mainmenu', command=restart).pack(side=BOTTOM)
-    ttk.Button(final,text='Return to homescreen', command=restart).pack(side=BOTTOM)
-    ttk.Button(final,text='Exit', command=exit).pack(side=BOTTOM)
+    
+    ttk.Button(final,text='Exit', command=exit).pack(side=BOTTOM,pady=10)
+    ttk.Button(final,text='Return to homescreen', command=restart).pack(side=BOTTOM,pady=10)
     #Final Window-->
     def stats_window():
         file=open('stats','r')
@@ -293,8 +294,8 @@ while status == 0 :
     ttk.Label(sett_window, text="Settings" , font="helvitica 20 bold").pack()
     ttk.Checkbutton(sett_window, text="Music", command=music_toggle,variable=musicio).pack(pady=5)
     ttk.Label(sett_window,text="Volume:").pack(pady=10)
-    volume = ttk.Scale(sett_window, from_=0, to=100, orient=HORIZONTAL, command=volume_set)
-    volume.set(100)
+    volume = ttk.Scale(sett_window, from_=0, to=100, orient=HORIZONTAL,length=300, command=volume_set)
+    volume.set(60)
     volume.pack(pady=5)
     ttk.Button(sett_window,text='Change Theme', command=lambda:raise_frame(theme_window)).pack(pady=5)
     ttk.Button(sett_window,text='Return to Mainmenu',command=lambda:raise_frame(intro)).pack(side=BOTTOM, pady=10)
