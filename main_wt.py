@@ -14,12 +14,24 @@ import threading
 from time import sleep
 
 
-print ("Welcome to Trivia QUIZ")
+
 
 pygame.mixer.init()
-pygame.mixer.music.load("rtwi.mp3")
+song_no=1
+pygame.mixer.music.load("oth.mp3")
 pygame.mixer.music.play(-1)    
 
+
+def change_music():
+    global song_no
+    if song_no==1:
+        pygame.mixer.music.load("rtwi.mp3")
+        pygame.mixer.music.play(-1)
+        song_no=2
+    else:
+        pygame.mixer.music.load("oth.mp3")
+        pygame.mixer.music.play(-1)
+        song_no=1
 
 
 def on_closing():
@@ -329,6 +341,7 @@ while True :
     #sett_window
     ttk.Label(sett_window, text="Settings" , font="helvitica 20 bold").pack()
     ttk.Checkbutton(sett_window, text="Music", command=music_toggle,variable=musicio).pack(pady=5)
+    ttk.Button(sett_window,text="Change Music", command=change_music).pack(pady=5)
     ttk.Label(sett_window,text="Volume:").pack(pady=10)
     volume = ttk.Scale(sett_window, from_=0, to=100, orient=HORIZONTAL,length=300, command=volume_set)
     volume.set(60)
