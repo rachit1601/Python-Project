@@ -5,14 +5,22 @@ import tkinter.messagebox as tmsg
 import json
 import urllib.request
 import random
+import os
+os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
 import html
 import math
 import threading
-status=0
+from time import sleep
+
+
+print ("Welcome to Trivia QUIZ")
+
 pygame.mixer.init()
 pygame.mixer.music.load("rtwi.mp3")
-pygame.mixer.music.play()
+pygame.mixer.music.play(-1)    
+
+
 
 def on_closing():
     if tmsg.askokcancel("Quit", "Do you want to quit?"):
@@ -20,12 +28,41 @@ def on_closing():
 
 
 
-while status == 0 :
+while True :
+    
 
-    print ('Loading....')
+    #print ('Loading....')
     themetxt= open('theme.txt','r')
     home = ThemedTk(theme=f'{themetxt.read()}')
     home.title('Quiz')
+    status=0
+    def loading_print():
+        global status
+        while status==0:
+            delay=.5
+            print('Loading',end='')
+            n_dots = 0
+
+            while status==0:
+                if n_dots == 3:
+                    print(end='\b\b\b', flush=True)
+                    print(end='   ',    flush=True)
+                    print(end='\b\b\b', flush=True)
+                    n_dots = 0
+                else:
+                    print(end='.', flush=True)
+                    n_dots += 1
+                sleep(delay)
+        while status==1:
+            print(end='\b\b\b\b\b\b\b\b\b\b\b', flush=True)
+            print(end='           ',    flush=True)
+            print(end='\b\b\b\b\b\b\b\b\b\b\b', flush=True)
+            print('Loaded Successfully', flush=True)
+            break
+    #loading_print(0)
+    t1=threading.Thread(target=loading_print)
+    t1.start()
+    
     url_list=['https://opentdb.com/api.php?amount=15&type=multiple','https://opentdb.com/api.php?amount=15&category=18&type=multiple','https://opentdb.com/api.php?amount=15&category=9&type=multiple','https://opentdb.com/api.php?amount=15&category=10&type=multiple','https://opentdb.com/api.php?amount=15&category=12&type=multiple','https://opentdb.com/api.php?amount=15&category=21&type=multiple']
     url_list_names=['All category','Computers','GK','Books','Music','Sports']
     datat=[]
@@ -176,7 +213,6 @@ while status == 0 :
             raise_frame(enter_name)
 
     def name_set():
-        print(name_entry.get())
         file=open('stats','r')
         content=file.read()
         data=json.loads(content)
@@ -399,6 +435,7 @@ while status == 0 :
         for j in (q1,q2,q3,q4,q5,q6,q7,q8,q9,q10,q11,q12,q13,q14,q15):
             ttk.Button(j, text="Submit" ,command=lambda:score_calc(0 , category)).pack(side='bottom', pady=10)
 
-  
+    status=1
+    #loading_print()
     raise_frame(intro)
     home.mainloop()
