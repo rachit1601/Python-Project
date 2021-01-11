@@ -14,7 +14,7 @@ import threading
 from time import sleep
 
 
-
+print("Welcome to Trivia Quiz")
 
 pygame.mixer.init()
 song_no=1
@@ -153,6 +153,9 @@ while True :
         '''
         This is the main function that checks the answer and calculates the score
         '''
+
+
+        
         global score
         global count
         global timer_status
@@ -250,6 +253,7 @@ while True :
     intro= ttk.Frame(home)
     cate=ttk.Frame(home)
     sett_window=ttk.Frame(home)
+    info=ttk.Frame(home)
     stats=ttk.Frame(home)
     theme_window=ttk.Frame(home)
     q1=ttk.Frame(home)
@@ -274,7 +278,7 @@ while True :
 
     #positionRight = int(home.winfo_screenwidth()/2 - 733/2)
     #positionDown = int(home.winfo_screenheight()/2 - 434/2)
-    #home.geometry("733x434+{}+{}".format(positionRight, positionDown))
+    #home.geometry('700x503')
     home.iconbitmap("logo.ico")
     home.resizable(False, False)
 
@@ -283,6 +287,12 @@ while True :
     timerframe.grid(row=1, column=0, sticky='news')
     #timer frame End-->
 
+    #info frame
+    ttk.Label(info,text="Trivia Quiz",font="helveta 40 bold").pack(pady=10)
+    ttk.Label(info,text="Version: 0.9 Beta",font="helveta 8 bold").pack()
+    ttk.Button(info,text='Return to Mainmenu',command=lambda:raise_frame(intro)).pack(side=BOTTOM, pady=10)
+    #info frame-->
+
     #<--Timer label
     timerlabel=ttk.Progressbar(timerframe, orient=HORIZONTAL,length=700 ,mode = 'determinate')
     timerlabel['value'] = 100
@@ -290,21 +300,24 @@ while True :
 
     #<-- Category frame
     ttk.Label(cate, text='Please Select Your Trivia Category', font= 'lucida 20 bold').pack(pady=5)
-    ttk.Button(cate, text=f'{url_list_names[0]}' , command =lambda:start(obj0)).pack(pady=20)
-    ttk.Button(cate, text=f'{url_list_names[1]}' , command =lambda:start(obj1)).pack(pady=20)
-    ttk.Button(cate, text=f'{url_list_names[2]}' , command =lambda:start(obj2)).pack(pady=20)
-    ttk.Button(cate, text=f'{url_list_names[3]}' , command =lambda:start(obj3)).pack(pady=20)
-    ttk.Button(cate, text=f'{url_list_names[4]}' , command =lambda:start(obj4)).pack(pady=20)
-    ttk.Button(cate, text=f'{url_list_names[5]}' , command =lambda:start(obj5)).pack(pady=20)
-    ttk.Label(cate,text='Questions provided by Open Trivia Database', font='lucida 8').pack()
+    ttk.Button(cate, text=f'{url_list_names[0]}' , command =lambda:start(obj0)).pack(pady=10)
+    ttk.Button(cate, text=f'{url_list_names[1]}' , command =lambda:start(obj1)).pack(pady=10)
+    ttk.Button(cate, text=f'{url_list_names[2]}' , command =lambda:start(obj2)).pack(pady=10)
+    ttk.Button(cate, text=f'{url_list_names[3]}' , command =lambda:start(obj3)).pack(pady=10)
+    ttk.Button(cate, text=f'{url_list_names[4]}' , command =lambda:start(obj4)).pack(pady=10)
+    ttk.Button(cate, text=f'{url_list_names[5]}' , command =lambda:start(obj5)).pack(pady=10)
+    ttk.Label(cate,text='Questions provided by Open Trivia Database', font='lucida 8').pack(side=BOTTOM)
+    ttk.Button(cate,text='Return to homescreen', command=lambda:raise_frame(intro)).pack(side=BOTTOM,pady=10)
+    
     #Category Frame --> 
 
     #<--Final window
-    #ttk.Button(final,text='Back to Mainmenu', command=restart).pack(side=BOTTOM)
+    
     
     ttk.Button(final,text='Exit', command=exit).pack(side=BOTTOM,pady=10)
     ttk.Button(final,text='Return to homescreen', command=restart).pack(side=BOTTOM,pady=10)
     #Final Window-->
+
     def stats_window():
         file=open('stats','r')
         content=file.read()
@@ -317,10 +330,12 @@ while True :
             avg_score=sum(data['scores'])/len(data['scores'])
             max_score=max(data['scores'])
             min_score=min(data['scores'])
+            percentage=(avg_score/15)*100
             
-            ttk.Label(stats,text=f'{round(avg_score,2)} is your average score',font='lucida 20').pack(pady=3)
-            ttk.Label(stats,text=f'{max_score} is your maximum score',font='lucida 20').pack(pady=3)
-            ttk.Label(stats,text=f'{min_score} is your minimum score',font='lucida 20').pack(pady=3)
+            ttk.Label(stats,text=f'{round(avg_score,2)}/15 is your average score',font='lucida 20').pack(pady=3)
+            ttk.Label(stats,text=f'{round(percentage,2)}% is your average percentage',font='lucida 20').pack(pady=3)
+            ttk.Label(stats,text=f'{max_score}/15 is your maximum score',font='lucida 20').pack(pady=3)
+            ttk.Label(stats,text=f'{min_score}/15 is your minimum score',font='lucida 20').pack(pady=3)
         else:
             ttk.Label(stats,text="Please start playing to see your stats",font='lucida 20').pack(pady=3)
         ttk.Button(stats,text='Back To Mainmenu',command=lambda:raise_frame(intro)).pack(side=BOTTOM)
@@ -347,6 +362,7 @@ while True :
     volume.set(60)
     volume.pack(pady=5)
     ttk.Button(sett_window,text='Change Theme', command=lambda:raise_frame(theme_window)).pack(pady=5)
+    ttk.Button(sett_window,text='About', command=lambda:raise_frame(info)).pack(pady=60)
     ttk.Button(sett_window,text='Return to Mainmenu',command=lambda:raise_frame(intro)).pack(side=BOTTOM, pady=10)
     #sett_window
 
@@ -368,12 +384,11 @@ while True :
 
     #frame assignment
     #intro.grid(row=0, column=0, sticky='news')
-    for frame in (intro,cate,sett_window,stats,theme_window, q1, q2, q3,q4,q5,q6,q7,q8,q9,q10,q11,q12,q13,q14,q15,final,enter_name):
+    for frame in (intro,cate,info,sett_window,stats,theme_window, q1, q2, q3,q4,q5,q6,q7,q8,q9,q10,q11,q12,q13,q14,q15,final,enter_name):
         frame.grid(row=0, column=0, sticky='news')
 
     #home page
-    #ttk.Button(intro,text='Exit',command=lambda:home.destroy()).pack()
-    #home.overrideredirect(True)
+    
     temporary_frame=ttk.Frame(intro)
     temporary_frame.grid(row= 0 , column = 0 ,sticky='nw')
     settings_img=PhotoImage(file='settings.png')
@@ -382,11 +397,11 @@ while True :
     pic=ttk.Label(intro, image=photo, borderwidth=0).grid(padx=(45 , 0), pady = 5, row= 1 , column = 0)
 
     start_img=PhotoImage(file='start.png')
-    ttk.Button(intro, image=start_img ,command=name_check).grid(row= 2 , column = 0 , pady=(40,0))
+    ttk.Button(intro, image=start_img ,command=name_check).grid(row= 2 , column = 0 , pady=(60,10))
 
 
 
-    ttk.Button(temporary_frame,text="Your Stats",command=lambda:raise_frame(stats)).pack(padx=(500, 10),pady=5, side='right')
+    ttk.Button(temporary_frame,text="Your Stats",command=lambda:raise_frame(stats)).pack(padx=(560, 10),pady=5, side='right')
 
     answerlist=[]
     def q_a_main(category):
