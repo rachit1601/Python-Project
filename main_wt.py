@@ -11,6 +11,7 @@ import pygame
 import html
 import math
 import threading
+import pickle
 from time import sleep
 
 
@@ -20,7 +21,15 @@ pygame.mixer.init()
 song_no=1
 pygame.mixer.music.load("oth.mp3")
 pygame.mixer.music.play(-1)    
+try:
+    file=open('stats','rb')
+    x=pickle.load(file)
+    file.close()
 
+except:
+    x={"name": "", "scores": []}
+    pickle.dump(x,open('stats','wb'))
+    file.close()
 
 def change_music():
     global song_no
@@ -100,13 +109,13 @@ while True :
     home.protocol("WM_DELETE_WINDOW", on_closing)
 
     def stats_update(sclt):
-        file=open('stats','r')
-        content=file.read()
-        data=json.loads(content)
+        file=open('stats','rb')
+        data=pickle.load(file)
         file.close()
-        file=open('stats','w')
+        file=open('stats','wb')
         data["scores"].append(sclt)
-        json.dump(data,file)
+        pickle.dump(data,file)
+        file.close()
 
     def themeset(tn):
         '''
@@ -115,6 +124,7 @@ while True :
         global sett_window
         file=open('theme.txt','w')
         file.write(tn)
+        file.close()
         tmsg.showinfo("Theme Set", " Please wait a few seconds while the program reloads.")
         home.destroy()
         
@@ -198,11 +208,11 @@ while True :
             elif o==1:
                 tmsg.showinfo("Response", f'Time UP \n The correct answer was \n \"{coranswer}\""')
             #final score
-            file=open('stats','r')
-            content=file.read()
-            data=json.loads(content)
+            file=open('stats','rb')
+            data=pickle.load(file)
+            file.close()
             nme=data["name"]
-            ttk.Label(final,text=f"{nme}, you scored {score} out of 15", font='lucida 20 bold'  , wraplength=400).pack(pady=20)
+            ttk.Label(final,text=f"{nme}, you scored {score} out of 15", font='lucida 20 bold'  , wraplength=550).pack(pady=20)
             timerlabel.forget()
             raise_frame(final)
             stats_update(score)
@@ -219,22 +229,22 @@ while True :
     def name_check():
         '''This function checks whether the user had entered the name before or not. If yes then the enter name frame will not get displayed
         '''
-        file=open('stats','r')
-        content=file.read()
-        data=json.loads(content)
+        file=open('stats','rb')
+        data=pickle.load(file)
+        file.close()
         if data["name"]!= "":
             raise_frame(cate)
         else:
             raise_frame(enter_name)
 
     def name_set():
-        file=open('stats','r')
-        content=file.read()
-        data=json.loads(content)
+        file=open('stats','rb')
+        data=pickle.load(file)
         file.close
-        file=open('stats','w')
+        file=open('stats','wb')
         data["name"]=name_entry.get()
-        json.dump(data,file)
+        pickle.dump(data,file)
+        file.close()
         raise_frame(cate)
 
     
@@ -290,7 +300,9 @@ while True :
     #info frame
     ttk.Label(info,text="Trivia Quiz",font="helveta 40 bold").pack(pady=10)
     ttk.Label(info,text="Version: 0.9 Beta",font="helveta 8 bold").pack()
+    
     ttk.Button(info,text='Return to Mainmenu',command=lambda:raise_frame(intro)).pack(side=BOTTOM, pady=10)
+    ttk.Label(info,text="Made in INDIA",font="helveta 30 bold").pack(side=BOTTOM, pady=10)
     #info frame-->
 
     #<--Timer label
@@ -319,9 +331,10 @@ while True :
     #Final Window-->
 
     def stats_window():
-        file=open('stats','r')
-        content=file.read()
-        data=json.loads(content)
+        file=open('stats','rb')
+        #content=file.read()
+        data=pickle.load(file)
+        file.close()
         name=data['name']
         no_of_games=len(data['scores'])
         ttk.Label(stats,text=f'Hello {name}',font='lucida 20 bold').pack(pady=20)
