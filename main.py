@@ -20,29 +20,29 @@ print("Welcome to Trivia Quiz")
 #BG Music
 pygame.mixer.init()
 song_no=1
-pygame.mixer.music.load("oth.mp3")
+pygame.mixer.music.load("Assets/oth.mp3")
 pygame.mixer.music.play(-1)
 
 #open stats file
 try:
-    file=open('stats','rb')
+    file=open('Assets/stats','rb')
     x=pickle.load(file)
     file.close()
 
 #recreate stats file if modified by user
 except:
     x={"name": "", "scores": []}
-    pickle.dump(x,open('stats','wb'))
+    pickle.dump(x,open('Assets/stats','wb'))
     file.close()
 
 def change_music():
     global song_no
     if song_no==1:
-        pygame.mixer.music.load("rtwi.mp3")
+        pygame.mixer.music.load("Assets/rtwi.mp3")
         pygame.mixer.music.play(-1)
         song_no=2
     else:
-        pygame.mixer.music.load("oth.mp3")
+        pygame.mixer.music.load("Assets/oth.mp3")
         pygame.mixer.music.play(-1)
         song_no=1
 
@@ -54,7 +54,7 @@ def on_closing():
 
 
 while True :
-    themetxt= open('theme.txt','r')
+    themetxt= open('Assets/theme.txt','r')
     home = ThemedTk(theme=f'{themetxt.read()}')
     home.title('Quiz')
     status=0
@@ -81,13 +81,14 @@ while True :
             print(end='\b\b\b\b\b\b\b\b\b\b\b', flush=True)
             print('Loaded Successfully', flush=True)
             break
-    #loading_print(0)
+
     t1=threading.Thread(target=loading_print)
     t1.start()
     
-    url_list=['https://opentdb.com/api.php?amount=15&type=multiple','https://opentdb.com/api.php?amount=15&category=18&type=multiple','https://opentdb.com/api.php?amount=15&category=9&type=multiple','https://opentdb.com/api.php?amount=15&category=10&type=multiple','https://opentdb.com/api.php?amount=15&category=12&type=multiple','https://opentdb.com/api.php?amount=15&category=21&type=multiple']
+    url_list=['https://opentdb.com/api.php?amount=15','https://opentdb.com/api.php?amount=15&category=18','https://opentdb.com/api.php?amount=15&category=9','https://opentdb.com/api.php?amount=15&category=10','https://opentdb.com/api.php?amount=15&category=12','https://opentdb.com/api.php?amount=15&category=21']
     url_list_names=['All category','Computers','GK','Books','Music','Sports']
     datat=[]
+    
     try:
         for i in range(6):
             datat.append(urllib.request.urlopen(url_list[i]).read().decode())
@@ -106,9 +107,6 @@ while True :
         obj4={"response_code":502,"results":[{"category":"Entertainment: Music","type":"multiple","difficulty":"easy","question":"Who wrote the Sinead O`Connor hit &#039;Nothing Compares 2 U&#039;?","correct_answer":"Prince","incorrect_answers":["Michael Jackson","Cameo","Rick James"]},{"category":"Entertainment: Music","type":"multiple","difficulty":"easy","question":"Who had a 1969 top 5 hit with the song,  &#039;A Boy Named Sue&#039;?","correct_answer":"Johnny Cash","incorrect_answers":["Bob Dylan","Willie Nelson","Kris Kristofferson"]},{"category":"Entertainment: Music","type":"multiple","difficulty":"easy","question":"How many studio albums have the duo Daft Punk released?","correct_answer":"4","incorrect_answers":["1","5","2"]},{"category":"Entertainment: Music","type":"multiple","difficulty":"medium","question":"What genre of EDM is the Dutch DJ, musician, and remixer Armin van Buuren most well-known for?","correct_answer":"Trance","incorrect_answers":["House","Drum and Bass","Dubstep"]},{"category":"Entertainment: Music","type":"multiple","difficulty":"easy","question":"Brian May was the guitarist for which band?","correct_answer":"Queen","incorrect_answers":["Pink Floyd","Rolling Stones","The Doors"]},{"category":"Entertainment: Music","type":"multiple","difficulty":"easy","question":"Which classical composer wrote the &quot;Moonlight Sonata&quot;?","correct_answer":"Ludvig Van Beethoven","incorrect_answers":["Chief Keef","Wolfgang Amadeus Mozart","Johannes Brahms"]},{"category":"Entertainment: Music","type":"multiple","difficulty":"medium","question":"Which band released the album &quot;Sonic Highways&quot; in 2014?","correct_answer":"Foo Fighters","incorrect_answers":["Coldplay","Nickelback","The Flaming Lips"]},{"category":"Entertainment: Music","type":"multiple","difficulty":"medium","question":"Where did the British Boy Band &quot;Bros&quot; come from?","correct_answer":"Camberley","incorrect_answers":["Guildford","Aldershot","Bagshot"]},{"category":"Entertainment: Music","type":"multiple","difficulty":"hard","question":"What was the name of the rock band that Nobuo Uematsu formed that played songs from various Final Fantasy games?","correct_answer":"The Black Mages","incorrect_answers":["The Final Fantasies","The Espers","The Rock Summoners"]},{"category":"Entertainment: Music","type":"multiple","difficulty":"medium","question":"Which of these Johns was murdered by gunshots outside the Dakota in New York in 1980?","correct_answer":"John Lennon","incorrect_answers":["Johnny Thunders","John Denver","John Cascella"]},{"category":"Entertainment: Music","type":"multiple","difficulty":"easy","question":"Which punk rock band released hit songs such as &quot;Californication&quot;, &quot;Can&#039;t Stop&quot; and &quot;Under the Bridge&quot;?","correct_answer":"Red Hot Chilli Peppers","incorrect_answers":["Green Day","Linkin Park","Foo Fighters"]},{"category":"Entertainment: Music","type":"multiple","difficulty":"hard","question":"What song originally performed by The Bee Gees in 1978 had a cover version by Steps 20 years later?","correct_answer":"Tragedy","incorrect_answers":["Night Fever","Stayin&#039; Alive","You Should Be Dancing"]},{"category":"Entertainment: Music","type":"multiple","difficulty":"medium","question":"Which song made by MAN WITH A MISSION was used as the opening for the anime &quot;Log Horizon&quot;?","correct_answer":"&quot;Database&quot;","incorrect_answers":["&quot;Dead End in Tokyo&quot;","&quot;Raise Your Flag&quot;","&quot;Out of Control&quot;"]},{"category":"Entertainment: Music","type":"multiple","difficulty":"medium","question":"On the cover of &#039;Abbey Road,&#039; which of the Beatles is not wearing shoes?","correct_answer":"Paul McCartney","incorrect_answers":["Ringo Starr","John Lennon","George Harrison"]},{"category":"Entertainment: Music","type":"multiple","difficulty":"medium","question":"How many studio albums have the heavy metal band, &#039;Metallica&#039; released in the period between 1983 and 2016?","correct_answer":"10","incorrect_answers":["7","9","12"]}]}
         obj5={"response_code":502,"results":[{"category":"Sports","type":"multiple","difficulty":"medium","question":"What is the nickname of Northampton town&#039;s rugby union club?","correct_answer":"Saints","incorrect_answers":["Harlequins","Saracens","Wasps"]},{"category":"Sports","type":"multiple","difficulty":"easy","question":"How many soccer players should be on the field at the same time?","correct_answer":"22","incorrect_answers":["20","24","26"]},{"category":"Sports","type":"multiple","difficulty":"medium","question":"Which Formula One driver was nicknamed &#039;The Professor&#039;?","correct_answer":"Alain Prost","incorrect_answers":["Ayrton Senna","Niki Lauda","Emerson Fittipaldi"]},{"category":"Sports","type":"multiple","difficulty":"easy","question":"What was the final score of the Germany vs. Brazil 2014 FIFA World Cup match?","correct_answer":"7 - 1","incorrect_answers":["0 - 1","3 - 4","16 - 0"]},{"category":"Sports","type":"multiple","difficulty":"hard","question":"Which car company is the only Japanese company which won the 24 Hours of Le Mans?","correct_answer":"Mazda","incorrect_answers":["Toyota","Subaru","Nissan"]},{"category":"Sports","type":"multiple","difficulty":"medium","question":"What national team won the 2016 edition of UEFA European Championship?","correct_answer":"Portugal","incorrect_answers":["France","Germany","England"]},{"category":"Sports","type":"multiple","difficulty":"medium","question":"Who won the 2015 College Football Playoff (CFP) National Championship? ","correct_answer":"Ohio State Buckeyes","incorrect_answers":["Alabama Crimson Tide","Clemson Tigers","Wisconsin Badgers"]},{"category":"Sports","type":"multiple","difficulty":"easy","question":"The Los Angeles Dodgers were originally from what U.S. city?","correct_answer":"Brooklyn","incorrect_answers":["Las Vegas","Boston","Seattle"]},{"category":"Sports","type":"multiple","difficulty":"medium","question":"Which professional wrestler fell from the rafters to his death during a live Pay-Per-View event in 1999?","correct_answer":"Owen Hart","incorrect_answers":["Chris Benoit","Lex Luger","Al Snow"]},{"category":"Sports","type":"multiple","difficulty":"medium","question":"Who was the topscorer for England national football team?","correct_answer":"Wayne Rooney","incorrect_answers":["David Beckham","Steven Gerrard","Michael Owen"]},{"category":"Sports","type":"multiple","difficulty":"medium","question":"What is Tiger Woods&#039; all-time best career golf-score?","correct_answer":"61","incorrect_answers":["65","63","67"]},{"category":"Sports","type":"multiple","difficulty":"medium","question":"What country hosted the 2014 Winter Olympics?","correct_answer":"Russia","incorrect_answers":["Canada","United States","Germany"]},{"category":"Sports","type":"multiple","difficulty":"medium","question":"Which basketball team has attended the most NBA grand finals?","correct_answer":"Los Angeles Lakers","incorrect_answers":["Boston Celtics","Philadelphia 76ers","Golden State Warriors"]},{"category":"Sports","type":"multiple","difficulty":"hard","question":"Which of these Russian cities did NOT contain a stadium that was used in the 2018 FIFA World Cup?","correct_answer":"Vladivostok","incorrect_answers":["Rostov-on-Don","Yekaterinburg","Kaliningrad"]},{"category":"Sports","type":"multiple","difficulty":"medium","question":"Who won the 2018 Monaco Grand Prix?","correct_answer":"Daniel Ricciardo","incorrect_answers":["Sebastian Vettel","Kimi Raikkonen","Lewis Hamilton"]}]}
 
-
-
-    obj_list=(obj0,obj1,obj2)
     #some used variables
     score=0
     count = 1
@@ -120,10 +118,10 @@ while True :
 
     def stats_update(sclt):
         if selected['response_code'] == 0 :
-            file=open('stats','rb')
+            file=open('Assets/stats','rb')
             data=pickle.load(file)
             file.close()
-            file=open('stats','wb')
+            file=open('Assets/stats','wb')
             data["scores"].append(sclt)
             pickle.dump(data,file)
             file.close()
@@ -136,7 +134,7 @@ while True :
         This function sets the theme that user requested by writing it in a text file.
         '''
         global sett_window
-        file=open('theme.txt','w')
+        file=open('Assets/theme.txt','w')
         file.write(tn)
         file.close()
         tmsg.showinfo("Theme Set", " Please wait a few seconds while the program reloads.")
@@ -222,7 +220,7 @@ while True :
             elif o==1:
                 tmsg.showinfo("Response", f'Time UP \n The correct answer was \n \"{coranswer}\""')
             #final score
-            file=open('stats','rb')
+            file=open('Assets/stats','rb')
             data=pickle.load(file)
             file.close()
             nme=data["name"]
@@ -236,14 +234,12 @@ while True :
         tmsg.showinfo("Returning to homescreen", " Please wait a few seconds while the program reloads.")
         home.destroy()
 
-    def exit():
-        quit()
 
 
     def name_check():
         '''This function checks whether the user had entered the name before or not. If yes then the enter name frame will not get displayed
         '''
-        file=open('stats','rb')
+        file=open('Assets/stats','rb')
         data=pickle.load(file)
         file.close()
         if data["name"]!= "":
@@ -252,10 +248,10 @@ while True :
             raise_frame(enter_name)
 
     def name_set():
-        file=open('stats','rb')
+        file=open('Assets/stats','rb')
         data=pickle.load(file)
         file.close
-        file=open('stats','wb')
+        file=open('Assets/stats','wb')
         data["name"]=name_entry.get()
         pickle.dump(data,file)
         file.close()
@@ -299,11 +295,7 @@ while True :
     enter_name=ttk.Frame(home)
     #frames declaration end -->
 
-
-    #positionRight = int(home.winfo_screenwidth()/2 - 733/2)
-    #positionDown = int(home.winfo_screenheight()/2 - 434/2)
-    #home.geometry('700x503')
-    home.iconbitmap("logo.ico")
+    home.iconbitmap("Assets/logo.ico")
     home.resizable(False, False)
 
     #<--timer frame
@@ -333,19 +325,16 @@ while True :
     ttk.Button(cate, text=f'{url_list_names[4]}' , command =lambda:start(obj4)).pack(pady=10)
     ttk.Button(cate, text=f'{url_list_names[5]}' , command =lambda:start(obj5)).pack(pady=10)
     ttk.Label(cate,text='Questions provided by Open Trivia Database', font='lucida 8').pack(side=BOTTOM)
-    ttk.Button(cate,text='Return to homescreen', command=lambda:raise_frame(intro)).pack(side=BOTTOM,pady=10)
-    
+    ttk.Button(cate,text='Return to homescreen', command=lambda:raise_frame(intro)).pack(side=BOTTOM,pady=10)    
     #Category Frame --> 
 
     #<--Final window
-    
-    
-    ttk.Button(final,text='Exit', command=exit).pack(side=BOTTOM,pady=10)
+    ttk.Button(final,text='Exit', command=lambda:quit()).pack(side=BOTTOM,pady=10)
     ttk.Button(final,text='Return to homescreen', command=restart).pack(side=BOTTOM,pady=10)
     #Final Window-->
 
     def stats_window():
-        file=open('stats','rb')
+        file=open('Assets/stats','rb')
         #content=file.read()
         data=pickle.load(file)
         file.close()
@@ -395,7 +384,6 @@ while True :
 
 
     def themes_buttons():
-        
         ttk.Label(theme_window,text='Select your theme').pack(pady=10)
         ttk.Button(theme_window,text='Equilux',command=lambda:themeset('equilux')).pack(pady=10)
         ttk.Button(theme_window,text='Yaru',command=lambda:themeset('yaru')).pack(pady=10)
@@ -405,32 +393,20 @@ while True :
         ttk.Button(theme_window,text='Breeze',command=lambda:themeset('breeze')).pack(pady=10)
         ttk.Button(theme_window,text='ITFT1',command=lambda:themeset('itft1')).pack(pady=10)
         ttk.Button(theme_window,text='Return to Mainmenu',command=lambda:raise_frame(intro)).pack(pady=10)
-
-
     themes_buttons()
 
     #frame assignment
-    #intro.grid(row=0, column=0, sticky='news')
     for frame in (intro,cate,info,sett_window,stats,theme_window, q1, q2, q3,q4,q5,q6,q7,q8,q9,q10,q11,q12,q13,q14,q15,final,enter_name):
         frame.grid(row=0, column=0, sticky='news')
         
-
-    #home page
-    
-    #key binding
-    for frame in (q1, q2, q3,q4,q5,q6,q7,q8,q9,q10,q11,q12,q13,q14,q15):
-        frame.bind("<space>",lambda:score_calc(0 , selected))
-    #key binding
-
-
     temporary_frame=ttk.Frame(intro)
     temporary_frame.grid(row= 0 , column = 0 ,sticky='nw')
-    settings_img=PhotoImage(file='settings.png')
+    settings_img=PhotoImage(file='Assets/settings.png')
     ttk.Button(temporary_frame, image=settings_img,command=lambda:raise_frame(sett_window)).pack(padx=(10,0) ,side='left')
-    photo=PhotoImage(file="quiz_trans.png")
+    photo=PhotoImage(file="Assets/quiz_trans.png")
     pic=ttk.Label(intro, image=photo, borderwidth=0).grid(padx=(45 , 0), pady = 5, row= 1 , column = 0)
 
-    start_img=PhotoImage(file='start.png')
+    start_img=PhotoImage(file='Assets/start.png')
     ttk.Button(intro, image=start_img ,command=name_check).grid(row= 2 , column = 0 , pady=(60,10))
 
 
@@ -488,8 +464,11 @@ while True :
         for q in (q1,q2,q3,q4,q5,q6,q7,q8,q9,q10,q11,q12,q13,q14,q15):
             ttk.Radiobutton(q, text= html.unescape(new_list[noq][0]),variable=answerlist[noq],value=new_list[noq][0]).pack(pady=10)
             ttk.Radiobutton(q, text= html.unescape(new_list[noq][1]),variable=answerlist[noq],value=new_list[noq][1]).pack(pady=10)
-            ttk.Radiobutton(q, text= html.unescape(new_list[noq][2]),variable=answerlist[noq],value=new_list[noq][2]).pack(pady=10)
-            ttk.Radiobutton(q, text= html.unescape(new_list[noq][3]),variable=answerlist[noq],value=new_list[noq][3]).pack(pady=10)
+            try:
+                ttk.Radiobutton(q, text= html.unescape(new_list[noq][2]),variable=answerlist[noq],value=new_list[noq][2]).pack(pady=10)
+                ttk.Radiobutton(q, text= html.unescape(new_list[noq][3]),variable=answerlist[noq],value=new_list[noq][3]).pack(pady=10)
+            except:
+                pass
             noq=noq+1
         
         
@@ -498,6 +477,5 @@ while True :
             ttk.Button(j, text="Submit" ,command=lambda:score_calc(0 , category)).pack(side='bottom', pady=10)
 
     status=1
-    #loading_print()
     raise_frame(intro)
     home.mainloop()
