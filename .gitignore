@@ -1,2 +1,6 @@
 
 stats
+output
+__pycache__
+.vscode
+.idea
