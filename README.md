@@ -12,8 +12,9 @@ It has many features:
 2) MCQ/ True-false Questions
 3) 2 background Music
 4) Your Stats
-5) 1 offline quiz in each category
-6) Many Themes 
+5) More than 5 categories
+6) 1 offline quiz in each category
+7) Many Themes 
 
 And much more...
 
