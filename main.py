@@ -224,7 +224,19 @@ while True :
             data=pickle.load(file)
             file.close()
             nme=data["name"]
+            feedback_list = ["Try to karlo XD", 'Probably this topic isnt your forte, Better luck next time!','Probably this topic isnt your forte, Better luck next time!',
+                 'Probably this topic isnt your forte, Better luck next time!',
+                 'You can do much better, Keep trying :)', 'You can do much better, Keep trying :)',
+                 'You can do much better, Keep trying :)', 'You can do much better, Keep trying :)',
+                 'Better than the average, Try harder next time :)',
+                 'Better than the average, Try harder next time :)',
+                 'Better than the average, Try harder next time :)',
+                 'Well done, you aced this. Try harder to get 15 :)',
+                 'Well done, you aced this. Try harder to get 15 :)',
+                 'Well done, you aced this. Try harder to get 15 :)',
+                 'Well done, you aced this. Try harder to get 15 :)', 'Well done !!, You nailed it']
             ttk.Label(final,text=f"{nme}, you scored {score} out of 15", font='lucida 20 bold'  , wraplength=550).pack(pady=20)
+            ttk.Label(final,text=feedback_list[score],font="lucida 20 bold" , wraplength=550).pack(pady=20)
             timerlabel.forget()
             raise_frame(final)
             stats_update(score)
