@@ -133,7 +133,6 @@ while True :
         '''
         This function sets the theme that user requested by writing it in a text file.
         '''
-        global sett_window
         file=open('Assets/theme.txt','w')
         file.write(tn)
         file.close()
@@ -255,7 +254,7 @@ while True :
         data=pickle.load(file)
         file.close()
         if data["name"]!= "":
-            raise_frame(cate)
+            raise_frame(instruction)
         else:
             raise_frame(enter_name)
 
@@ -267,7 +266,7 @@ while True :
         data["name"]=name_entry.get()
         pickle.dump(data,file)
         file.close()
-        raise_frame(cate)
+        raise_frame(instruction)
 
     
     musicio=IntVar(value=1)
@@ -284,6 +283,7 @@ while True :
     #frames declaration
     intro= ttk.Frame(home)
     cate=ttk.Frame(home)
+    instruction = ttk.Frame(home)
     sett_window=ttk.Frame(home)
     info=ttk.Frame(home)
     stats=ttk.Frame(home)
@@ -317,7 +317,7 @@ while True :
 
     #info frame
     ttk.Label(info,text="Trivia Quiz",font="helveta 40 bold").pack(pady=10)
-    ttk.Label(info,text="Version: 0.9 Beta",font="helveta 8 bold").pack()
+    ttk.Label(info,text="Version: 1.0.1",font="helveta 8 bold").pack()
     
     ttk.Button(info,text='Return to Mainmenu',command=lambda:raise_frame(intro)).pack(side=BOTTOM, pady=10)
     ttk.Label(info,text="Made in INDIA",font="helveta 30 bold").pack(side=BOTTOM, pady=10)
@@ -339,6 +339,14 @@ while True :
     ttk.Label(cate,text='Questions provided by Open Trivia Database', font='lucida 8').pack(side=BOTTOM)
     ttk.Button(cate,text='Return to homescreen', command=lambda:raise_frame(intro)).pack(side=BOTTOM,pady=10)    
     #Category Frame --> 
+ 
+    #intruction page
+    ttk.Label(instruction, text = 'INSTRUCTIONS' , font='lucida 25 bold' ).pack(pady=10)
+    ttk.Label(instruction, text="The Quiz contains a total of 15 questions from a few categories.\n You would be given a time frame of 15 seconds for each question.\n The total score would be displayed at the end .\n Please click on ''Continue'' to proceed ." , font='lucida 18' , justify="left").pack(pady=10)
+    ttk.Label(instruction,text="All the best!!", font='lucida 23 bold' ).pack(pady=30)
+    ttk.Button(instruction,text="Continue" , command=lambda:raise_frame(cate)).pack(side=BOTTOM,pady=10)
+    #instruction page
+
 
     #<--Final window
     ttk.Button(final,text='Exit', command=lambda:quit()).pack(side=BOTTOM,pady=10)
@@ -408,7 +416,7 @@ while True :
     themes_buttons()
 
     #frame assignment
-    for frame in (intro,cate,info,sett_window,stats,theme_window, q1, q2, q3,q4,q5,q6,q7,q8,q9,q10,q11,q12,q13,q14,q15,final,enter_name):
+    for frame in (intro,instruction,cate,info,sett_window,stats,theme_window, q1, q2, q3,q4,q5,q6,q7,q8,q9,q10,q11,q12,q13,q14,q15,final,enter_name):
         frame.grid(row=0, column=0, sticky='news')
         
     temporary_frame=ttk.Frame(intro)
