@@ -317,7 +317,7 @@ while True :
 
     #info frame
     ttk.Label(info,text="Trivia Quiz",font="helveta 40 bold").pack(pady=10)
-    ttk.Label(info,text="Version: 1.0.2 Beta",font="helveta 8 bold").pack()
+    ttk.Label(info,text="Version: 1.0.4 Beta",font="helveta 8 bold").pack()
     
     ttk.Button(info,text='Return to Mainmenu',command=lambda:raise_frame(intro)).pack(side=BOTTOM, pady=10)
     ttk.Label(info,text="Made in INDIA",font="helveta 30 bold").pack(side=BOTTOM, pady=10)
@@ -402,18 +402,54 @@ while True :
     ttk.Button(sett_window,text='Return to Mainmenu',command=lambda:raise_frame(intro)).pack(side=BOTTOM, pady=10)
     #sett_window
 
+ 
+    prev0=PhotoImage(file='Assets/Preview/0.png')
+    prev1=PhotoImage(file='Assets/Preview/1.png')
+    prev2=PhotoImage(file='Assets/Preview/2.png')
+    prev3=PhotoImage(file='Assets/Preview/3.png')
+    prev4=PhotoImage(file='Assets/Preview/4.png')
+    prev5=PhotoImage(file='Assets/Preview/5.png')
+    prev6=PhotoImage(file='Assets/Preview/6.png')
+    thm_prv_list=[prev0,prev1,prev2,prev3,prev4,prev5,prev6]
 
-    def themes_buttons():
-        ttk.Label(theme_window,text='Select your theme').pack(pady=10)
-        ttk.Button(theme_window,text='Equilux',command=lambda:themeset('equilux')).pack(pady=10)
-        ttk.Button(theme_window,text='Yaru',command=lambda:themeset('yaru')).pack(pady=10)
-        ttk.Button(theme_window,text='Radiance',command=lambda:themeset('radiance')).pack(pady=10)
-        ttk.Button(theme_window,text='Black',command=lambda:themeset('black')).pack(pady=10)
-        ttk.Button(theme_window,text='Default',command=lambda:themeset('default')).pack(pady=10)
-        ttk.Button(theme_window,text='Breeze',command=lambda:themeset('breeze')).pack(pady=10)
-        ttk.Button(theme_window,text='ITFT1',command=lambda:themeset('itft1')).pack(pady=10)
-        ttk.Button(theme_window,text='Return to Mainmenu',command=lambda:raise_frame(intro)).pack(pady=10)
-    themes_buttons()
+
+    ttk.Label(theme_window,text='Select your theme',font='lucida 15 bold').pack(pady=10)
+    innerframe=ttk.Frame(theme_window)
+    innerframe.pack(pady=10)
+    thm1=ttk.Button(innerframe,text='Equilux',command=lambda:themeset('equilux'))
+    thm1.grid(row=0,column=0)
+    thm1.bind("<Enter>",func=lambda e: thm_prev.config(image=prev0 ))
+    thm2=ttk.Button(innerframe,text='Yaru',command=lambda:themeset('yaru'))
+    thm2.grid(row=0,column=1)
+    thm2.bind("<Enter>",func=lambda e: thm_prev.config(image=prev1 ))
+    thm3=ttk.Button(innerframe,text='Radiance',command=lambda:themeset('radiance'))
+    thm3.grid(row=0,column=2)
+    thm3.bind("<Enter>",func=lambda e: thm_prev.config(image=prev2 ))
+    thm4=ttk.Button(innerframe,text='Black',command=lambda:themeset('black'))
+    thm4.grid(row=1,column=0)
+    thm4.bind("<Enter>",func=lambda e: thm_prev.config(image=prev3 ))
+    thm5=ttk.Button(innerframe,text='Default',command=lambda:themeset('default'))
+    thm5.grid(row=1,column=1)
+    thm5.bind("<Enter>",func=lambda e: thm_prev.config(image=prev4 ))
+    thm6=ttk.Button(innerframe,text='Breeze',command=lambda:themeset('breeze'))
+    thm6.grid(row=1,column=2)
+    thm6.bind("<Enter>",func=lambda e: thm_prev.config(image=prev5 ))
+    thm7=ttk.Button(innerframe,text='ITFT1',command=lambda:themeset('itft1'))
+    thm7.grid(row=2,column=1)
+    thm7.bind("<Enter>",func=lambda e: thm_prev.config(image=prev6 ))
+    ttk.Label(theme_window, text="Preview" , font="lucida 12").pack(pady=5)
+    thm_prev=ttk.Label(theme_window,image='')
+    thm_prev.pack()
+    prev_frame=ttk.Frame(theme_window).pack(pady=5)
+
+    ttk.Button(theme_window,text='Return to Mainmenu',command=lambda:raise_frame(intro)).pack(side=BOTTOM , pady=5)
+
+
+    for i in (thm1,thm1,thm2,thm3,thm4,thm5,thm6,thm7):
+        i.bind("<Leave>",func=lambda e: thm_prev.config(image=''))
+
+    
+
 
     #frame assignment
     for frame in (intro,instruction,cate,info,sett_window,stats,theme_window, q1, q2, q3,q4,q5,q6,q7,q8,q9,q10,q11,q12,q13,q14,q15,final,enter_name):
