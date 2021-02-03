@@ -306,8 +306,10 @@ while True :
     final=ttk.Frame(home)
     enter_name=ttk.Frame(home)
     #frames declaration end -->
-
-    home.iconbitmap("Assets/logo.ico")
+    try:
+        home.iconbitmap("Assets/logo.ico")
+    except:
+        pass
     home.resizable(False, False)
 
     #<--timer frame
@@ -317,7 +319,7 @@ while True :
 
     #info frame
     ttk.Label(info,text="Trivia Quiz",font="helveta 40 bold").pack(pady=10)
-    ttk.Label(info,text="Version: 1.0.4",font="helveta 8 bold").pack()
+    ttk.Label(info,text="Version: 1.0.5",font="helveta 8 bold").pack()
     
     ttk.Button(info,text='Return to Mainmenu',command=lambda:raise_frame(intro)).pack(side=BOTTOM, pady=10)
     ttk.Label(info,text="Made in INDIA",font="helveta 30 bold").pack(side=BOTTOM, pady=10)
@@ -410,6 +412,8 @@ while True :
     prev4=PhotoImage(file='Assets/Preview/4.png')
     prev5=PhotoImage(file='Assets/Preview/5.png')
     prev6=PhotoImage(file='Assets/Preview/6.png')
+    prev7=PhotoImage(file='Assets/Preview/7.png')
+
     thm_prv_list=[prev0,prev1,prev2,prev3,prev4,prev5,prev6]
 
 
@@ -435,8 +439,11 @@ while True :
     thm6.grid(row=1,column=2)
     thm6.bind("<Enter>",func=lambda e: thm_prev.config(image=prev5 ))
     thm7=ttk.Button(innerframe,text='ITFT1',command=lambda:themeset('itft1'))
-    thm7.grid(row=2,column=1)
+    thm7.grid(row=2,column=0)
     thm7.bind("<Enter>",func=lambda e: thm_prev.config(image=prev6 ))
+    thm8=ttk.Button(innerframe,text='Keramik',command=lambda:themeset('keramik'))
+    thm8.grid(row=2,column=1)
+    thm8.bind("<Enter>",func=lambda e: thm_prev.config(image=prev7 ))
     ttk.Label(theme_window, text="Preview" , font="lucida 12").pack(pady=5)
     thm_prev=ttk.Label(theme_window,image='')
     thm_prev.pack()
@@ -445,7 +452,7 @@ while True :
     ttk.Button(theme_window,text='Return to Mainmenu',command=lambda:raise_frame(intro)).pack(side=BOTTOM , pady=5)
 
 
-    for i in (thm1,thm1,thm2,thm3,thm4,thm5,thm6,thm7):
+    for i in (thm1,thm1,thm2,thm3,thm4,thm5,thm6,thm7,thm8):
         i.bind("<Leave>",func=lambda e: thm_prev.config(image=''))
 
     
