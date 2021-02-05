@@ -8,7 +8,7 @@ Its just a simple trivia quiz program.
 
 ## Features
 It has many features:
-1) Ever expanding question databse
+1) Ever expanding question database
 2) MCQ/ True-false Questions
 3) 2 background Music
 4) Your Stats
